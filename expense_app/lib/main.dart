@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'widgets/weekly_expenses.dart';
 import 'widgets/expenses.dart';
 import 'widgets/add_expense.dart';
+import './transaction.dart';
 
 void main() {
   runApp(const ExpenseApp());
@@ -26,8 +27,34 @@ class ExpenseApp extends StatelessWidget {
   }
 }
 
-class ExpenseAppPage extends StatelessWidget {
+class ExpenseAppPage extends StatefulWidget {
   const ExpenseAppPage({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _ExpenseAppState();
+}
+
+class _ExpenseAppState extends State<ExpenseAppPage> {
+  final List<Transaction> _transactions = [];
+
+  void _addTransaction(String title, double amount, DateTime date) {
+    final transaction = Transaction(
+      id: DateTime.now().toString(),
+      title: title,
+      amount: amount,
+      date: date,
+    );
+
+    setState(() {
+      _transactions.add(transaction);
+    });
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _transactions.removeWhere((value) => value.id == id);
+    });
+  }
 
   Future<void> _addExpense(BuildContext ctx) async {
     await showModalBottomSheet(
@@ -36,7 +63,7 @@ class ExpenseAppPage extends StatelessWidget {
         return GestureDetector(
           onTap: () {},
           behavior: HitTestBehavior.opaque,
-          child: const AddExpense(),
+          child: AddExpense(addTransaction: _addTransaction),
         );
       },
     );
@@ -56,25 +83,32 @@ class ExpenseAppPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            const Card(
-              elevation: 2,
-              child: WeeklyExpenses(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                const Card(
+                  elevation: 2,
+                  child: WeeklyExpenses(),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                SizedBox(
+                  height:
+                      (mediaQuery.size.height - mediaQuery.padding.top) * 0.7,
+                  child: Expenses(
+                    transactions: _transactions,
+                    deleteTransaction: _deleteTransaction,
+                  ),
+                )
+              ],
             ),
-            const SizedBox(
-              height: 5,
-            ),
-            SizedBox(
-              height: (mediaQuery.size.height - mediaQuery.padding.top) * 0.7,
-              child: const Expenses(),
-            )
-          ],
+          ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () => _addExpense(context),
