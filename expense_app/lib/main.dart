@@ -59,11 +59,20 @@ class _ExpenseAppState extends State<ExpenseAppPage> {
   Future<void> _addExpense(BuildContext ctx) async {
     await showModalBottomSheet(
       context: ctx,
+      isScrollControlled: true,
       builder: (_) {
+        final mediaQuery = MediaQuery.of(ctx);
+        final isLandscape = mediaQuery.orientation == Orientation.landscape;
+        final insets = mediaQuery.viewInsets.bottom;
+        final gutter = !isLandscape ? 0.35 : 0.66;
+
         return GestureDetector(
           onTap: () {},
           behavior: HitTestBehavior.opaque,
-          child: AddExpense(addTransaction: _addTransaction),
+          child: FractionallySizedBox(
+            heightFactor: (insets / 1000) + gutter,
+            child: AddExpense(addTransaction: _addTransaction),
+          ),
         );
       },
     );
@@ -72,33 +81,41 @@ class _ExpenseAppState extends State<ExpenseAppPage> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
+    final heightFactor = !isLandscape ? 0.75 : 0.45;
+
+    final appBar = AppBar(
+      title: const Text('Expense Tracker'),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: () => _addExpense(context),
+        ),
+      ],
+    );
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Expense Tracker'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () => _addExpense(context),
-          ),
-        ],
-      ),
+      appBar: appBar,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
               children: [
-                const Card(
+                Card(
                   elevation: 2,
-                  child: WeeklyExpenses(),
+                  child: WeeklyExpenses(
+                    transactions: _transactions,
+                  ),
                 ),
                 const SizedBox(
                   height: 5,
                 ),
                 SizedBox(
-                  height:
-                      (mediaQuery.size.height - mediaQuery.padding.top) * 0.7,
+                  height: (mediaQuery.size.height -
+                          appBar.preferredSize.height -
+                          mediaQuery.padding.top) *
+                      heightFactor,
                   child: Expenses(
                     transactions: _transactions,
                     deleteTransaction: _deleteTransaction,

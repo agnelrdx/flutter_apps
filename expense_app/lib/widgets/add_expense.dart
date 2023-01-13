@@ -46,15 +46,21 @@ class _AddExpenseState extends State<AddExpense> {
 
   void _addTransaction() {
     final title = _titleController.text;
-    final amount = double.parse(_amountController.text);
+    final amount = _amountController.text;
 
-    if (title.isEmpty || amount <= 0 || _selectedDate == null) {
+    if (title.isEmpty || amount.isEmpty || _selectedDate == null) {
+      return;
+    }
+
+    final amountParsed = double.parse(_amountController.text);
+
+    if (amountParsed <= 0) {
       return;
     }
 
     widget.addTransaction(
       _titleController.text,
-      double.parse(_amountController.text),
+      amountParsed,
       _selectedDate,
     );
 
@@ -65,7 +71,12 @@ class _AddExpenseState extends State<AddExpense> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(30),
+        padding: const EdgeInsets.only(
+          top: 10,
+          left: 20,
+          right: 20,
+          bottom: 0,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -127,7 +138,7 @@ class _AddExpenseState extends State<AddExpense> {
               ],
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             ElevatedButton(
               onPressed: _addTransaction,
@@ -140,6 +151,5 @@ class _AddExpenseState extends State<AddExpense> {
         ),
       ),
     );
-    ;
   }
 }
