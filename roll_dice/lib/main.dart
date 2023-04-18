@@ -51,8 +51,8 @@ class _RollDiceState extends State<RollDicePage> {
 
     Timer.periodic(const Duration(milliseconds: 80), (timer) {
       counter++;
-      angle = random.nextDouble() * 180;
       setState(() {
+        angle = random.nextDouble() * 180;
         diceState = random.nextInt(6);
       });
 
@@ -78,10 +78,12 @@ class _RollDiceState extends State<RollDicePage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Transform.rotate(
-              angle: angle, // random.nextDouble() * 180,
+              angle: angle,
               child: Image.asset(
                 images[diceState],
                 height: 100,
+                cacheWidth: 262,
+                cacheHeight: 262,
               ),
             ),
             const SizedBox(
