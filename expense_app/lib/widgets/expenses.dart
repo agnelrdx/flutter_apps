@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../transaction.dart';
+import 'package:expense_app/transaction.dart';
 
 class Expenses extends StatelessWidget {
   final List<Transaction> transactions;

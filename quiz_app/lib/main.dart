@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import './question_board.dart';
-import './answer_board.dart';
+import 'package:quiz_app/question_board.dart';
+import 'package:quiz_app/answer_board.dart';
 
 void main() {
   runApp(const QuizApp());

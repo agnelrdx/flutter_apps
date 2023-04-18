@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../transaction.dart';
-import './chart_bar.dart';
+import 'package:expense_app/transaction.dart';
+import 'package:expense_app/widgets/chart_bar.dart';
 
 class WeeklyExpenses extends StatelessWidget {
   final List<Transaction> transactions;

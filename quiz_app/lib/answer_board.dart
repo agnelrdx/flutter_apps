@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import './score_title.dart';
-import './score.dart';
-import './reset.dart';
+import 'package:quiz_app/score_title.dart';
+import 'package:quiz_app/score.dart';
+import 'package:quiz_app/reset.dart';
 
 class AnswerBoard extends StatelessWidget {
   const AnswerBoard({

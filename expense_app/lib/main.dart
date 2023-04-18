@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'widgets/weekly_expenses.dart';
-import 'widgets/expenses.dart';
-import 'widgets/add_expense.dart';
-import './transaction.dart';
+import 'package:expense_app/widgets/weekly_expenses.dart';
+import 'package:expense_app/widgets/expenses.dart';
+import 'package:expense_app/widgets/add_expense.dart';
+import 'package:expense_app/transaction.dart';
 
 void main() {
   runApp(const ExpenseApp());

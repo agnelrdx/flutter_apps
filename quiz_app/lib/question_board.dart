@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import './game_title.dart';
-import './questions.dart';
-import './answer_button.dart';
+import 'package:quiz_app/game_title.dart';
+import 'package:quiz_app/questions.dart';
+import 'package:quiz_app/answer_button.dart';
 
 class QuestionBoard extends StatelessWidget {
   const QuestionBoard({
