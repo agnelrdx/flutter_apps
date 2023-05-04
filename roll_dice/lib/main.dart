@@ -45,7 +45,7 @@ class _RollDiceState extends State<RollDicePage> {
     'assets/images/dice-6.png',
   ];
 
-  rollDice() async {
+  void rollDice() async {
     await player.setAsset('assets/audio/rolling-dice.mp3');
     player.play();
 
